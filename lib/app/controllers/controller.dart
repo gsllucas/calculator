@@ -9,17 +9,8 @@ class CalculatorController {
   bool hadDisplayedAnyResultExpression = false;
 
   displayCommand(String command, TypeCommand typeCommand) {
-    // checkLastCommand();
-
-    if (typeCommand == TypeCommand.operator) {
-      hadDisplayedAnyResultExpression = false;
-    }
-
-    if (hadDisplayedAnyResultExpression && typeCommand == TypeCommand.number) {
-      hadDisplayedAnyResultExpression = false;
-      value = '';
-      return value += command;
-    }
+    resultExpressionHandler(command, typeCommand);
+    hadDisplayedAnyResultExpression = false;
 
     if (value == '0') {
       return value = command;
@@ -28,22 +19,37 @@ class CalculatorController {
     return value += command;
   }
 
-  // checkLastCommand() {
-  //   final splitValue = value.split('');
-  //   final lastDigitCommand = splitValue[splitValue.length - 1];
-  // }
+  resultExpressionHandler(String command, TypeCommand typeCommand) {
+    try {
+      if (hadDisplayedAnyResultExpression &&
+          typeCommand == TypeCommand.number) {
+        resetPanelValue(command);
+      }
+    } catch (_) {
+      return;
+    }
+  }
+
+  resetPanelValue(String command) {
+    value = '';
+  }
 
   result() {
-    final parsedValue = value.interpret();
-    final modDifferentToZero = parsedValue % 1 != 0;
+    try {
+      hadDisplayedAnyResultExpression = true;
 
-    hadDisplayedAnyResultExpression = true;
+      final parsedValue = value.interpret();
+      final hasValueDecimals = parsedValue % 1 != 0;
 
-    if (modDifferentToZero) {
-      return value = value.interpret().toDouble().toString();
+      if (hasValueDecimals) {
+        return value = value.interpret().toDouble().toString();
+      }
+
+      return value = value.interpret().toInt().toString();
+    } catch (_) {
+      hadDisplayedAnyResultExpression = false;
+      return;
     }
-
-    return value = value.interpret().toInt().toString();
   }
 
   allClear() {
@@ -57,9 +63,5 @@ class CalculatorController {
 
     int end = value.length - 1;
     return value = value.substring(0, end);
-  }
-
-  List<String> splitValue(String value, String split) {
-    return value.split(split);
   }
 }

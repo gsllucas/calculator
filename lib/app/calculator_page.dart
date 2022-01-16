@@ -59,7 +59,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                             child: '%',
                             cb: () => displayValueOnTappedButton(
                               '%',
-                              TypeCommand.number,
+                              TypeCommand.operator,
                             ),
                             color: Colors.orange,
                           ),
