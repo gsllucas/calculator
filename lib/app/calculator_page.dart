@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_project/app/components/button.dart';
 import 'package:flutter_project/app/components/button_controllers_column.dart';
@@ -18,9 +16,9 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   final controller = CalculatorController();
 
   displayValueOnTappedButton(String command, TypeCommand typeCommand) =>
-      setState(() => controller.display_command(command));
+      setState(() => controller.displayCommand(command, typeCommand));
 
-  allClear() => setState(() => controller.all_clear());
+  allClear() => setState(() => controller.allClear());
 
   clear() => setState(() => controller.clear());
 

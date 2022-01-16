@@ -6,8 +6,21 @@ class CalculatorController {
   CalculatorController();
 
   String value = '0';
+  bool hadDisplayedAnyResultExpression = false;
 
-  display_command(String command) {
+  displayCommand(String command, TypeCommand typeCommand) {
+    // checkLastCommand();
+
+    if (typeCommand == TypeCommand.operator) {
+      hadDisplayedAnyResultExpression = false;
+    }
+
+    if (hadDisplayedAnyResultExpression && typeCommand == TypeCommand.number) {
+      hadDisplayedAnyResultExpression = false;
+      value = '';
+      return value += command;
+    }
+
     if (value == '0') {
       return value = command;
     }
@@ -15,13 +28,25 @@ class CalculatorController {
     return value += command;
   }
 
-  checkCommand(String command, TypeCommand typeCommand) {}
+  // checkLastCommand() {
+  //   final splitValue = value.split('');
+  //   final lastDigitCommand = splitValue[splitValue.length - 1];
+  // }
 
   result() {
-    return value = value.interpret().toString();
+    final parsedValue = value.interpret();
+    final modDifferentToZero = parsedValue % 1 != 0;
+
+    hadDisplayedAnyResultExpression = true;
+
+    if (modDifferentToZero) {
+      return value = value.interpret().toDouble().toString();
+    }
+
+    return value = value.interpret().toInt().toString();
   }
 
-  all_clear() {
+  allClear() {
     return value = '0';
   }
 
@@ -32,10 +57,6 @@ class CalculatorController {
 
     int end = value.length - 1;
     return value = value.substring(0, end);
-  }
-
-  separate_panel_strings(String value) {
-    // value.
   }
 
   List<String> splitValue(String value, String split) {
