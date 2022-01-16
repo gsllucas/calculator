@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/app/controllers/controller.dart';
 
 class Button extends StatelessWidget {
-  final String child;
+  final dynamic child;
   final int? size;
   final Color? color;
   final VoidCallback cb;
@@ -25,8 +24,10 @@ class Button extends StatelessWidget {
           onPressed: () {
             cb.call();
           },
-          child: Text(child,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal)),
+          child: child is String
+              ? Text(child,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal))
+              : child,
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(color ?? Colors.blue)),
         ),

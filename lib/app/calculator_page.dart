@@ -51,7 +51,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                             cb: allClear,
                           ),
                           Button(
-                            child: 'x',
+                            child: Icon(Icons.backspace),
                             color: Colors.orange,
                             cb: clear,
                           ),
