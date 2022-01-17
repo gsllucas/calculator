@@ -16,7 +16,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
   final controller = CalculatorController();
 
   displayValueOnTappedButton(String command, TypeCommand typeCommand) =>
-      setState(() => controller.displayCommand(command, typeCommand));
+      setState(() => controller.handlerCommand(command, typeCommand));
 
   allClear() => setState(() => controller.allClear());
 

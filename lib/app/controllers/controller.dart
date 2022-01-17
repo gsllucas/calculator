@@ -7,6 +7,16 @@ class CalculatorController {
 
   String value = '0';
   bool hadDisplayedAnyResultExpression = false;
+  bool isLastCommandTappedAnOperator = false;
+
+  handlerCommand(String command, TypeCommand typeCommand) {
+    if (!isLastCommandTappedAnOperator || typeCommand == TypeCommand.number) {
+      displayCommand(command, typeCommand);
+    }
+
+    replaceLastOperatorSymbol(command, typeCommand);
+    checkLastCommandOperator();
+  }
 
   displayCommand(String command, TypeCommand typeCommand) {
     resultExpressionHandler(command, typeCommand);
@@ -19,6 +29,24 @@ class CalculatorController {
     return value += command;
   }
 
+  replaceLastOperatorSymbol(String command, TypeCommand typeCommand) {
+    if (typeCommand == TypeCommand.operator) {
+      final splitedValue = value.split('');
+      final lastCommandTapped = splitedValue[splitedValue.length - 1];
+
+      if (lastCommandTapped == '+' ||
+          lastCommandTapped == '-' ||
+          lastCommandTapped == '*' ||
+          lastCommandTapped == '/' ||
+          lastCommandTapped == '%' ||
+          lastCommandTapped == '.') {
+        final start = value.length - 1;
+        final end = value.length;
+        return value = value.replaceRange(start, end, command);
+      }
+    }
+  }
+
   resultExpressionHandler(String command, TypeCommand typeCommand) {
     try {
       if (hadDisplayedAnyResultExpression &&
@@ -28,6 +56,20 @@ class CalculatorController {
     } catch (_) {
       return;
     }
+  }
+
+  checkLastCommandOperator() {
+    final splitedValue = value.split('');
+    final lastCommandTapped = splitedValue[splitedValue.length - 1];
+
+    (lastCommandTapped == '+' ||
+            lastCommandTapped == '-' ||
+            lastCommandTapped == '*' ||
+            lastCommandTapped == '/' ||
+            lastCommandTapped == '%' ||
+            lastCommandTapped == '.')
+        ? isLastCommandTappedAnOperator = true
+        : isLastCommandTappedAnOperator = false;
   }
 
   resetPanelValue(String command) {
