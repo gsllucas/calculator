@@ -10,12 +10,23 @@ class CalculatorController {
   bool isLastCommandTappedAnOperator = false;
 
   handlerCommand(String command, TypeCommand typeCommand) {
-    if (!isLastCommandTappedAnOperator || typeCommand == TypeCommand.number) {
-      displayCommand(command, typeCommand);
-    }
+    if ((value == '0' && typeCommand == TypeCommand.operator) ||
+        value == '0' && command == '.') {
+      return;
+    } else {
+      final containsComma = value.contains('.');
 
-    replaceLastOperatorSymbol(command, typeCommand);
-    checkLastCommandOperator();
+      if (containsComma && command == '.') {
+        return;
+      }
+
+      if (!isLastCommandTappedAnOperator || typeCommand == TypeCommand.number) {
+        displayCommand(command, typeCommand);
+      }
+
+      replaceLastOperatorSymbol(command, typeCommand);
+      checkLastCommandOperator();
+    }
   }
 
   displayCommand(String command, TypeCommand typeCommand) {
